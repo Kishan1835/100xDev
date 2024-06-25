@@ -17,3 +17,17 @@
 
 
 
+// function onDone() {
+//     console.log("hei theeee")
+// }
+
+
+// setTimeout(onDone, 10000)
+// console.log("after setTimeout")
+
+
+// for (let i = 10; i < 99; i++) {
+//     console.log(i)
+// }
+
+
