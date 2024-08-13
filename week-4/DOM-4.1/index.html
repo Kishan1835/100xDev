@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+
+<body>
+    <h1 style="display:flex; justify-content: center; align-items: center; font: bold">Calculator</h1>
+
+    <input oninput="debouncedPopulutaion()" type="text" placeholder="no 1" id="first">
+    <br><br>
+    <input oninput="debouncedPopulutaion()" type="text" placeholder="no 2" id="second">
+    <br><br>
+   
+    <div id="finalsum">hi there</div>
+</body>
+
+
+
+<script>
+    let timeout;
+
+    function debouncedPopulutaion() {
+        // delay the call to populate until ive nt been called in 100ms
+        // and if im called atleat in 100ms 
+        clearTimeout(timeout) 
+        setTimeout(function () {
+            populateDiv()
+        }, 1000)
+    }
+
+    function populateDiv() {
+        const a = document.getElementById("first").value
+        const b = document.getElementById("second").value
+        const element = document.getElementById("finalsum")
+        const ans = element.innerHTML = parseInt(a) + parseInt(b)
+        console.log(ans)
+    }
+</script>
+
+</html>
