@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <input type="text" placeholder="title" id="title">
+    <br>
+    <input type="text" placeholder="description" id="desc">
+    <br>
+    <div id="container"></div>
+</body>
+
+
+<script>
+    function createChild(title, desc, id) {
+        const child = document.createElement("div")
+
+        const firstGrandChild = document.createElement("div")
+        firstGrandChild.innerHTML = title
+
+
+        const secondGrandChild = document.createElement("div")
+        secondGrandChild.innerHTML = desc
+
+        const thirdGrandChild = document.createElement("button")
+        thirdGrandChild.innerHTML = "Mark as done"
+        thirdGrandChild.setAttribute("onclick", `markAsDone(${id})`)
+
+        child.appendChild(firstGrandChild)
+        child.appendChild(secondGrandChild)
+        child.appendChild(thirdGrandChild)
+        child.setAttribute("id", id)
+        return child
+    }
+
+    function updateDomofgame(game) {
+        const parent = document.getElementById("container")
+        parent.innerHTML = ""
+        for (let i = 0; i < game.length; i++) {
+            const child = createChild(game[i].title, game[i].desc, game[i].id)
+            parent.appendChild(child)
+
+        }
+    }
+    window.setInterval(async function () {
+        const res = await fetch("https://sum-server.100xdevs.com/todos")
+        const json = await res.json()
+
+        updateDomofgame(json.todos)
+    }, 4000)
+</script>
+
+</html>
