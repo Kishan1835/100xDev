@@ -2,10 +2,11 @@
 const express = require("express")
 const { todo } = require("./db")
 const { createTodo, updateTodo } = require("./types")
-
 const app = express()
+const cors = require("cors")
 
 app.use(express.json())
+app.use(cors())
 
 // body{
 // title: "name of the task"// string
@@ -36,7 +37,7 @@ app.post("/todo", async (req, res) => {
 
 app.get("/todos", async (req, res) => {
     const todos = await todo.find({})
-    console.log("fetching todos",todos) // promise
+    console.log("fetching todos", todos) // promise
 
     res.json({
         todos
