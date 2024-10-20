@@ -1,35 +1,47 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
-const App = () => {
-    const [todos, setTodos] = useState([]);
+function App() {
+    const [newI, setId] = useState("1")
 
-    useEffect(() => {
-        axios.get("http://localhost:8080/todos")
-            .then(function (response) {
-                setTodos(response.data);
-            })
-            .catch(function (error) {
-                console.error("Error fetching data:", error);
-            });
-    }, []);
-
+    function changePage(event) {
+        const buttonValue = event.target.innerHTML
+        setId(buttonValue)
+    }
     return (
         <div>
-            {todos.map(todo => {
-                return <Todo key={todo.id} title={todo.title} description={todo.description} />
-            })}
-        </div>
-    );
-};
+            <button style={{ background: "red" }} onClick={changePage}>1</button>
+            <button onClick={changePage}>2</button>
+            <button onClick={changePage}>3</button>
+            <button onClick={changePage}>4</button>
 
-function Todo({ title, description }) {
-    return (
-        <div>
-            <h2>{title}</h2>
-            <h3>{description}</h3>
+            <Todo id={newI}></Todo>
         </div>
     );
 }
 
-export default App;
+function Todo({ id }) {
+    const [todo, setTodo] = useState({ title: '', description: '' })
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/todo?id=" + id)
+            .then(function (response) {
+                setTodo(response.data.todo)
+            })
+            .catch((error) => {
+                console.log("there is an erroe in fetching ", error)
+            })
+
+    }, [id])
+
+
+    return (
+        <div>
+            Id:{id}
+            <h1>{todo.title}</h1>
+            <h3>{todo.description}</h3>
+        </div>
+    )
+}
+
+export default App 
