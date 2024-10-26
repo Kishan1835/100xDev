@@ -1,47 +1,32 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useState } from "react";
+
 
 function App() {
-    const [newI, setId] = useState("1")
+    const [counter, setCounter] = useState(0);
+    const [inputValue, setInputValue] = useState(1);
 
-    function changePage(event) {
-        const buttonValue = event.target.innerHTML
-        setId(buttonValue)
+    function incrementCounter() {
+        setCounter(counter + 1);
     }
-    return (
-        <div>
-            <button style={{ background: "red" }} onClick={changePage}>1</button>
-            <button onClick={changePage}>2</button>
-            <button onClick={changePage}>3</button>
-            <button onClick={changePage}>4</button>
 
-            <Todo id={newI}></Todo>
-        </div>
-    );
+    let count = 0;
+    for (let i = 1; i <= Number(inputValue); i++) {
+        count = count +i;
+    }
+
+    return <div>
+        <input
+            onChange={(event) => setInputValue(event.target.value)}
+            placeholder={"Find the sum from 1 to n"}
+        />
+        <br />
+        Sum from 1 to {inputValue} is {count}
+        <br />
+        <button onClick={incrementCounter}>
+            <b>new counter {counter}</b>
+        </button>
+    </div>
+
 }
 
-function Todo({ id }) {
-    const [todo, setTodo] = useState({ title: '', description: '' })
-
-    useEffect(() => {
-        axios.get("http://localhost:8080/todo?id=" + id)
-            .then(function (response) {
-                setTodo(response.data.todo)
-            })
-            .catch((error) => {
-                console.log("there is an erroe in fetching ", error)
-            })
-
-    }, [id])
-
-
-    return (
-        <div>
-            Id:{id}
-            <h1>{todo.title}</h1>
-            <h3>{todo.description}</h3>
-        </div>
-    )
-}
-
-export default App 
+export default App;
