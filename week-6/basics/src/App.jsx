@@ -13,7 +13,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Some operation to get the data
+    // Some operation ोto get the data
     setExchange2Data({
       returns: 100,
     });
