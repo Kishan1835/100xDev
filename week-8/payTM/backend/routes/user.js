@@ -1,7 +1,7 @@
 const express = require("express");
 const zod = require("zod");
 const bcrypt = require("bcrypt");
-const { User } = require("../db");
+const { User, Account } = require("../db");
 const router = express.Router();
 const JWT_SECRET = require("../config");
 const jwt = require("jsonwebtoken");
@@ -14,7 +14,7 @@ const signupSchema = zod.object({
   lastName: zod.string(),
 });
 
-app.post("/signUp", async (req, res) => {
+router.post("/signUp", async (req, res) => {
   const body = req.body;
   const { sucess } = signupSchema.safeParse(req.body);
   if (!sucess) {
@@ -27,14 +27,24 @@ app.post("/signUp", async (req, res) => {
     username: body.username,
   });
 
-  const hashedPassword = await bcrypt.hash(body.password, 10);
-  console.log(hashedPassword);
-
   if (user._id) {
     return req.json({
       message: "Email already takem / Incorrect Inputs",
     });
   }
+
+  const existingUser = await User.findOne({
+    username: req.body.username
+  });
+
+  if (existingUser) {
+    return res.status(411).json({
+      message: "Email already taken/Incorrect inputs"
+    });
+  }
+
+  const hashedPassword = await bcrypt.hash(body.password, 10);
+  console.log(hashedPassword);
 
   const dbUser = await User.create(body);
   const token = jwt.sign(
@@ -43,9 +53,52 @@ app.post("/signUp", async (req, res) => {
     },
     JWT_SECRET
   );
+
+  await Account.create({
+    userId: dbUser._id,
+    balance: 1 + Math.random() * 10000
+  });
+
   req.json({
     message: "User created successfully",
     token: token,
+  });
+});
+
+const signinBody = zod.object({
+  username: zod.string().email(),
+  password: zod.string(),
+});
+
+router.post("/signin", async (req, res) => {
+  const { success } = signinBody.safeParse(req.body);
+  if (!success) {
+    return res.status(411).json({
+      message: "Email already taken / Incorrect inputs",
+    });
+  }
+
+  const user = await User.findOne({
+    username: req.body.username,
+    password: req.body.password,
+  });
+
+  if (user) {
+    const token = jwt.sign(
+      {
+        userId: user._id,
+      },
+      JWT_SECRET
+    );
+
+    res.json({
+      token: token,
+    });
+    return;
+  }
+
+  res.status(411).json({
+    message: "Error while logging in",
   });
 });
 
