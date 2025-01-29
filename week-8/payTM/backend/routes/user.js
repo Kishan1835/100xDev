@@ -18,7 +18,7 @@ router.post("/signUp", async (req, res) => {
   const body = req.body;
   const { sucess } = signupSchema.safeParse(req.body);
   if (!sucess) {
-    return req.json({
+    return res.json({
       message: "Email already takem / Incorrect Inputs",
     });
   }
