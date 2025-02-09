@@ -1,24 +1,48 @@
-import React from 'react'
-import Heading from '../components/Heading '
+import React, { useState } from 'react'
+import axios from 'axios'
+import Heading from '../components/Heading'
 import Subheading from '../components/Subheading'
 import InputBox from '../components/inputBox'
 import Button from '../components/Button'
 import BottomWarning from '../components/BottomWarning'
 
 const signup = () => {
-  return (
-    <div className="font-bold text-4xl pt-6" >
-      <Heading lable={"Sign Up"} />
-      <Subheading lable={"Enter your information to create an account"} />
-      <InputBox placeholder="john" lable={"First Name"} />
-      <InputBox placeholder="Doe" lable={"Last Name"} />
-      <InputBox placeholder="Kishan.200@gmail.com" lable={"Email"} />
-      <InputBox placeholder="123456" lable={"Password"} />
-      <div className='pt-4'>
-        <Button lable={"Sign Up"} />
-      </div>
 
-      <BottomWarning lable={"Already have an account?"} button={"Sign In"} />
+  const [firstName, setFirstName] = useState("")
+  const [lastnName, setLastName] = useState("")
+  const [userName, setUserName] = useState("")
+  const [password, setPassword] = useState("")
+  return (
+    <div className=" bg-slate-300 h-screen flex justify-center" >
+      <div className="flex flex-col justify-center">
+        <div className="rounded-lg bg-white w-96 text-center p-7 h-max px-7 ">
+          <Heading lable={"Sign Up"} className="pt-2 pb-2" />
+          <Subheading lable={"Enter your information to create an account"} />
+          <InputBox onChange={e => {
+            setFirstName(e.target.value)
+          }} placeholder="john" lable={"First Name"} />
+          <InputBox onChange={e => {
+            setLastName(e.target.value)
+          }} placeholder="Doe" lable={"Last Name"} />
+          <InputBox onChange={e => {
+            setUserName(e.target.value)
+          }} placeholder="Kishan.200@gmail.com" lable={"Email"} />
+          <InputBox onChange={e => {
+            setPassword(e.target.value)
+          }} placeholder="123456" lable={"Password"} />
+          <div className='pt-4'>
+            <Button lable={"Sign Up"}
+              onClick={() => {
+                axios.post("https://localhost:3000/api/v1/user/signup"),
+                  userName,
+                  firstName,
+                  lastnName,
+                  password
+              }} />
+          </div>
+          <BottomWarning lable={"Already have an account?"} buttonText={"Sign In"} to={"/signin"} />
+        </div>
+      </div>
     </div>
 
   )

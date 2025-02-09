@@ -8,4 +8,4 @@ const Heading = ({ lable }) => {
     )
 }
 
-export default Heading 
+export default Heading
