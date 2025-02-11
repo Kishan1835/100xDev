@@ -9,8 +9,8 @@ import BottomWarning from '../components/BottomWarning'
 const signup = () => {
 
   const [firstName, setFirstName] = useState("")
-  const [lastnName, setLastName] = useState("")
-  const [userName, setUserName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [username, setUserName] = useState("")
   const [password, setPassword] = useState("")
   return (
     <div className=" bg-slate-300 h-screen flex justify-center" >
@@ -33,11 +33,24 @@ const signup = () => {
           <div className='pt-4'>
             <Button lable={"Sign Up"}
               onClick={() => {
-                axios.post("https://localhost:3000/api/v1/user/signup"),
-                  userName,
+                axios.post("http://localhost:3000/api/v1/user/signup", {
+                  username,
                   firstName,
-                  lastnName,
+                  lastName,
                   password
+                })
+                  .then(response => {
+                    // Handle success
+                    console.log(response.data);
+                  })
+                  .catch(error => {
+                    // Handle error
+                    if (error.response) {
+                      console.error("Error:", error.response.data.message);
+                    } else {
+                      console.error("There was an error!", error.message);
+                    }
+                  });
               }} />
           </div>
           <BottomWarning lable={"Already have an account?"} buttonText={"Sign In"} to={"/signin"} />
