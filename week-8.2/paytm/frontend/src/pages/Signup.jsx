@@ -33,24 +33,14 @@ const signup = () => {
           <div className='pt-4'>
             <Button lable={"Sign Up"}
               onClick={() => {
-                axios.post("http://localhost:3000/api/v1/user/signup", {
+                const response = axios.post("http://localhost:3000/api/v1/user/signup", {
                   username,
                   firstName,
                   lastName,
                   password
-                })
-                  .then(response => {
-                    // Handle success
-                    console.log(response.data);
-                  })
-                  .catch(error => {
-                    // Handle error
-                    if (error.response) {
-                      console.error("Error:", error.response.data.message);
-                    } else {
-                      console.error("There was an error!", error.message);
-                    }
-                  });
+                });
+                localStorage.setItem("token", response.data.token);
+
               }} />
           </div>
           <BottomWarning lable={"Already have an account?"} buttonText={"Sign In"} to={"/signin"} />
