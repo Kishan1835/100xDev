@@ -23,9 +23,14 @@ router.get("/balance", authMiddleware, async (req, res) => {
 router.post("/transfer", authMiddleware, async (req, res) => {
   const { amount, to } = req.body;
 
+  console.log("Transfer request:", { amount, to });
+
   // Fetch the accounts
   const account = await Account.findOne({ UserId: req.userId });
   const toAccount = await Account.findOne({ UserId: to });
+
+  // console.log("Account found:", account);
+  // console.log("To account found:", toAccount);
 
   if (!account || account.balance < amount) {
     await session.abortTransaction();
