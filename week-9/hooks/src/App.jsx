@@ -1,37 +1,34 @@
-import { Component, useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useDebugValue, useEffect, useState } from "react"
+
+
+function useDebounce(inputvalue, timeout) {
+  const [dedouncedvalue, setDebouncedvalue] = useState()
+  useEffect(() => {
+    let timeoutNumber = setTimeout(() => {
+      setDebouncedvalue(inputvalue)
+    }, timeout)
+
+    return () => {
+      clearTimeout(timeoutNumber)
+    }
+
+  }, [inputvalue])
+  return dedouncedvalue
+}
+
 
 function App() {
-  const [render, setRender] = useState(true)
-
-  useEffect(() => {
-    setInterval(() => {
-      setRender(r => !r)
-    }, 5000)
-  }, [])
+  const [inputvalue, setInputvalue] = useState(0)
+  const debouncedValue = useDebounce(inputvalue, 500)
 
   return (
     <>
-      {render ? <Mycomponent /> : <div>this is not the corect syntax</div>}
+      devounced value is {debouncedValue}
+      <input type="text" onChange={e => setInputvalue(e.target.value)} />
     </>
   )
 }
 
-function Mycomponent() {
-  useEffect(() => {
-    console.log("compoent mounted")
-    return () => {
-      console.log("componet unmounted")
-    }
-  }, [])
-  return (
-    <>
-      from inside my compoents
-    </>
-  )
 
-}
 
 export default App
