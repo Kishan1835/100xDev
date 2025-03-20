@@ -59,3 +59,28 @@ console.log(isLegal({
     LastName: "T S",
     Age: 21,
 }))
+
+// Type needs an (=)
+// It can't be used to implement classe
+type User = {
+    firstName: string,
+    lastName: string,
+    age: number
+}
+
+// Unions
+// you wnat to print an id of an user that can be either number or an string 
+// chaining also works (number |strings)
+function greet(ud: (number | string)) {
+
+}
+greet(1)
+greet("1")
+
+// OR
+
+type freeeArg = string | number | boolean
+// here we can specifiy multiple types of a single variable using the type
+
+
+// intersection
