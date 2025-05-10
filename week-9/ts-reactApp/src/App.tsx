@@ -17,7 +17,7 @@ function App() {
 //   done:boolean
 // }
 
-function Todo(props:any) {
+function Todo(props:TodoProp) {
   return <div>
     <h1>{props.title}</h1>
     <h2>{props.description}</h2>
