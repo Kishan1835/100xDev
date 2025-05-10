@@ -2,6 +2,8 @@
 // let x: number = 102;
 // console.log(x);
 
+import { string } from "zod"
+
 
 //// assigning the type of the variable
 // function greet(firstname: string) {
@@ -60,13 +62,6 @@ console.log(isLegal({
     Age: 21,
 }))
 
-// Type needs an (=)
-// It can't be used to implement classe
-type User = {
-    firstName: string,
-    lastName: string,
-    age: number
-}
 
 // Unions
 // you wnat to print an id of an user that can be either number or an string 
@@ -77,10 +72,27 @@ function greet(ud: (number | string)) {
 greet(1)
 greet("1")
 
-// OR
-
-type freeeArg = string | number | boolean
 // here we can specifiy multiple types of a single variable using the type
 
 
 // intersection
+
+// type Employees = {
+//     name: string;
+//     startDate: Date
+// }
+
+// interface Manager {
+//     name: string;
+//     department: string
+
+// }
+
+// type TeachLead = Employees & Manager;
+// const t: TeachLead = {
+//     name: "kishan",
+//     startDate: new Date(),
+//     department: "DevOps",
+
+// }
+// console.log(t)
