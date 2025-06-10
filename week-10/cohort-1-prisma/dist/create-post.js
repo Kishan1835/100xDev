@@ -13,22 +13,15 @@ const prisma_1 = require("../generated/prisma");
 const prisma = new prisma_1.PrismaClient(); //{log:['info','query'],} for crreateing info logs at run time 
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = yield prisma.user.create({
+        const post = yield prisma.post.create({
             data: {
-                email: "kishan.200322@gmail.com",
-                name: "Hayagriva Kishan"
+                title: "webDev of the post",
+                content: "backend notes",
+                published: true,
+                authorId: 1
             }
         });
-        console.log(user);
+        console.log(post);
     });
 }
 main();
-//   .then(async () => {
-//     console.log("executed the users query")
-//   await prisma.$disconnect()
-// })
-// .catch(async (e) => {
-//   console.error(e)
-//   await prisma.$disconnect()
-//   process.exit(1)
-// })
