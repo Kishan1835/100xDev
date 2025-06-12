@@ -7,10 +7,14 @@ async function main() {
     
     const UpdateData = await prisma.user.update({
         where: {
-            email:"kishan.2003@gmail.com"
+            id: 1
         },
         data: {
-            email:"kishan.2004@gmail.com"
+            posts: {
+                deleteMany: {
+                    published: false
+                }
+            }
         }
     })
     console.log(UpdateData)

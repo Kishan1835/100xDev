@@ -10,22 +10,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const prisma_1 = require("../generated/prisma");
-const prisma = new prisma_1.PrismaClient({ log: ["info", "query"], });
+const prisma = new prisma_1.PrismaClient({ log: ["info", "query"] });
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const UpdateData = yield prisma.user.update({
-            where: {
-                id: 1
-            },
-            data: {
-                posts: {
-                    deleteMany: {
-                        published: false
+        try {
+            const response = yield prisma.user.findMany({
+                where: {
+                    email: {
+                        endsWith: "gmail.com"
+                    },
+                    posts: {
+                        some: {
+                            published: true
+                        }
+                    }
+                }, include: {
+                    posts: {
+                        where: {
+                            published: true
+                        }
                     }
                 }
-            }
-        });
-        console.log(UpdateData);
+            });
+            console.log(response);
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+            yield prisma.$disconnect();
+        }
     });
 }
 main();
