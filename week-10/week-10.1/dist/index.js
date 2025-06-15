@@ -36,4 +36,17 @@ function insetIntoTable() {
         console.log(response);
     });
 }
-insetIntoTable();
+// insetIntoTable();
+function updateTable() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield client.connect();
+        const newUsername = "Nayan";
+        const user_id = 1;
+        const updateQuery = `UPDATE users SET username = $1 WHERE id = $2`;
+        const values = [newUsername, user_id];
+        console.log(updateQuery);
+        const response = yield client.query(updateQuery, values);
+        console.log(response);
+    });
+}
+updateTable();
