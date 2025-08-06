@@ -1,10 +1,26 @@
 
+import axios from "axios";
+import { NextRequest } from "next/server";
+import { prisma } from "@/lib/prisma"
 
-export default async function Home() {
+
+async function fetchData() {
+  const user = await prisma.user.findFirst();
+
+  return {
+    name: "kishan",
+    user: user?.username
+  }
+}
+export default async function User() {
+  const data = await fetchData();
+
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div>
-        hi there
+    <div className="flex flex-col justify-center h-screen ">
+      <div className="flex justify-center ">
+        {data.name}
+
+        {data.user}
       </div>
     </div>
   );
