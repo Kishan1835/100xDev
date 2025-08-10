@@ -1,0 +1,13 @@
+docker build -t mongo_app . // Building the base image
+
+docker volume create backedn_volume // creation of new volution to attach to the images for data to persist
+
+docker run -v backedn_volume:/data/db -p 27017:27017 mongo // mounting the volume to the DB
+
+docker network create my_custom_net  // network creation for external interaction
+
+docker run -d -v backedn_volume:/data/db --name mongoclass2 --network my_custom_net  -p 27017:27017 mongo // This connects the container to a specific Docker network named my_custom_net. This allows the container to communicate with other containers on the same network.
+
+docker build -t mongo_app . // re-creating the base imgae as additinal dependencies'
+
+docker run  -p 3000:3000 --name backend_logic --network my_custom_net mongo_app //  Starts your main application (e.g., a web server or API) that connects to the MongoDB database.  
